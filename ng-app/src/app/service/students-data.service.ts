@@ -24,4 +24,9 @@ export class StudentsDataService {
   findStudent(search:string){
     return null;
   }
+
+  addStudentWihtAuthen(student:Student,imageFile:any,user:any){
+    return null;
+  }
+
 }

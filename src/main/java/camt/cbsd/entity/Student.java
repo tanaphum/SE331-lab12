@@ -22,7 +22,7 @@ import java.util.Optional;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(suppressConstructorProperties = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 public class Student {
@@ -43,7 +43,7 @@ public class Student {
     String description;
     @ManyToMany
     List<Course> enrolledCourse = new ArrayList<>();
-    @JsonManagedReference
+
     @OneToOne
     User user;
     @JsonView(View.Login.class)

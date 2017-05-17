@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(suppressConstructorProperties = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 public class Course {

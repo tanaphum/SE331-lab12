@@ -1,7 +1,13 @@
 package camt.cbsd.services;
 
 import camt.cbsd.dao.StudentDao;
+import camt.cbsd.entity.RegisterEntity;
 import camt.cbsd.entity.Student;
+import camt.cbsd.entity.security.Authority;
+import camt.cbsd.entity.security.AuthorityName;
+import camt.cbsd.entity.security.User;
+import camt.cbsd.security.repository.AuthorityRepository;
+import camt.cbsd.security.repository.UserRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -82,4 +92,44 @@ public class StudentServiceImpl implements StudentService {
             return studentDao.getStudents();
         return studentDao.getStudents(query);
     }
+
+    @Autowired
+    AuthorityRepository authorityRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Transactional
+    @Override
+    public Student addStudent(RegisterEntity registerEntity) {
+        Authority authority;
+        if (registerEntity.getRole().equals("Admin")){
+            authority =
+                    authorityRepository.findByName(AuthorityName.ROLE_ADMIN);
+        }else{
+            authority =
+                    authorityRepository.findByName(AuthorityName.ROLE_USER);
+        }
+        Student student = registerEntity.getStudent();
+        User user = User.builder().username(registerEntity.getUsername())
+                .password(registerEntity.getPassword())
+                .firstname(student.getName())
+                .lastname("default surnmae")
+                .email("default @default")
+
+                .lastPasswordResetDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                .authorities(Arrays.asList(authority))
+                .enabled(true)
+                .build();
+        student = studentDao.addStudent(student);
+        user = userRepository.save(user);
+        student.setUser(user);
+        user.setStudent(student);
+
+        Hibernate.initialize(student.getUser());
+        Hibernate.initialize(student.getAuthorities());
+        return student;
+
+    }
+
 }

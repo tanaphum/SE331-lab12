@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "AUTHORITY")
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Authority {
 
     @Id

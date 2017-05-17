@@ -1,8 +1,11 @@
 package camt.cbsd.controller;
 
+import camt.cbsd.config.json.View;
+import camt.cbsd.entity.RegisterEntity;
 import camt.cbsd.entity.Student;
 import camt.cbsd.services.StudentService;
 import camt.cbsd.services.StudentServiceImpl;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -132,4 +135,16 @@ public class StudentController {
         }
 
     }
+
+    @JsonView(View.Login.class)
+    @PostMapping("/studentAuthen")
+    public Student uploadStudentAuthen(@RequestBody RegisterEntity user) {
+
+        Student student = studentService.addStudent(user);
+        return student;
+
+    }
+
+
+
 }

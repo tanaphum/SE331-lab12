@@ -1,0 +1,93 @@
+<div>
+  <form class="form-horizontal " name="form" (ngSubmit)="f.form.valid && isValid() &&
+addStudent(student)" #f="ngForm" novalidate>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted &&
+!studentID.valid}">
+      <label class="col-sm-2 control-label">Student id : </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="studentId" placeholder="Student id" [(ngModel)]="student.studentId"
+               name="id" #studentID="ngModel" required>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted &&
+!name.valid}">
+      <label class="col-sm-2 control-label">Student name : </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="studentName" placeholder="Name" [(ngModel)]="student.name"
+               name="name" #name="ngModel" required>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':f.submitted &&
+!penAmount.valid}">
+      <label class="col-sm-2 control-label">Pen amount : </label>
+      <div class="col-sm-10 form-inline">
+        <button type="button" class="btn btn-primary btn-xs col-md-1 button-amount" (click)="downQuantity(student)">-
+        </button>
+         <input type="text" class="col-md-1 form-control input-amount" value="0" [(ngModel)]="student.penAmount"
+               name="penAmount" #penAmount="ngModel" required>
+        <button type="button" class="btn btn-primary btn-xs col-md-1 button-amount" (click)="upQuantity(student)">+
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">File input : </label>
+      <div class="col-sm-10">
+        <input #fileInput type="file" class="btn btn-default" id="exampleInputFile" (change)="onFileChange($event,student)" >
+        <p class="help-block">Leave here for the file preview later.</p>
+      </div>
+    </div>
+    <div class="form-group"  [ngClass]="{'has-error':f.submitted &&
+!description.valid}">
+      <label class="col-sm-2 control-label">Description : </label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="studentDescription" placeholder="Description" row="3"
+                #description="ngModel"  [(ngModel)]="student.description" name="description" required></textarea>
+      </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error':f.submitted &&
+!username.valid}">
+      <label for="username" class="col-sm-2 control-label">Username</label>
+      <div class="col-sm-10">
+        <input id="username" type="text" class="form-control" name="username"
+               [(ngModel)]="user.username"
+               #username="ngModel" required maxlength="50" minlength="4"/>
+        <span *ngIf="f.submitted && !username.value" class="helpblock">Username
+is required</span>
+      </div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error': f.submitted &&
+!password.valid}">
+      <label class="col-sm-2 control-label" for="password">Password&nbsp;
+      </label>
+      <div class="col-sm-10">
+        <input id="password" type="password" class="form-control"
+               name="password" [(ngModel)]="user.password"
+               #password="ngModel" required maxlength="100" minlength="4"/>
+        <span *ngIf="f.submitted && !password.valid" class="help-block">
+Password is required</span>
+      </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error': f.submitted &&
+!user.role}">
+      <label class="col-sm-2 control-label" for="role">Role:&nbsp; </label>
+      <div class="col-sm-4">
+        <ng-select [allowClear]="true"
+                   [items]="roles"
+                   (data)="refreshValue($event)"
+                   placeholder="Select role">
+        </ng-select>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Add</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+

@@ -2,13 +2,8 @@ package camt.cbsd.entity.security;
 
 import camt.cbsd.config.json.View;
 import camt.cbsd.entity.Student;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,8 +15,10 @@ import java.util.List;
 @Table(name = "USER")
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(suppressConstructorProperties = true)
 @Data
+@EqualsAndHashCode(exclude = "student")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     @Id
@@ -69,7 +66,7 @@ public class User {
     private Date lastPasswordResetDate;
 
     @JsonView(View.Login.class)
-    @JsonManagedReference
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",

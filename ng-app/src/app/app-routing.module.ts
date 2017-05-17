@@ -9,7 +9,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/addUser',
+    redirectTo: '/student-add',
     pathMatch: 'full'
   },
   {path: '**', component: FileNotFoundComponent},

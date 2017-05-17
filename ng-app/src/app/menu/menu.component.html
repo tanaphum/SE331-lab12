@@ -15,6 +15,7 @@
   </li>
   <li *ngIf="hasRole('USER')" role="presentation" routerLinkActive="active"><a routerLink="/courses">Course list</a></li>
   <li *ngIf="hasRole('ADMIN')" role="presentation" routerLinkActive="active"><a routerLink="/add-course">Add Course</a></li>
+  <li *ngIf="hasRole('ADMIN')" role="presentation" routerLinkActive="active"><a routerLink="/student-add">Add Student with User</a></li>
 
 </ul>
 

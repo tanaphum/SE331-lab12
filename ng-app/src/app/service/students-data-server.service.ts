@@ -105,4 +105,33 @@ export class StudentsDataServerService {
 
 
   }
-}
+
+
+  addStudentWihtAuthen(student:Student,file:any,user:any) {
+    console.log('called');
+    let formData = new FormData();
+    let fileName: string;
+    formData.append('file', file);
+    let header = new Headers({'Authorization': 'Bearer ' + this.authenticationService.getToken()});
+    let options = new RequestOptions({headers: header});
+    return this.http.post('http://localhost:8080/student/image',
+      formData, options)
+      .flatMap(filename => {
+        student.image = filename.text();
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: this.headers});
+        user.student = student;
+        let body = JSON.stringify(user);
+        return this.http.post('http://localhost:8080/studentAuthen', body,
+          options)
+          .map(res => {
+            return res.json()
+          })
+          .catch((error: any) => {
+            return Observable.throw(new Error(error.status))
+          })
+      })
+  }
+
+
+  }

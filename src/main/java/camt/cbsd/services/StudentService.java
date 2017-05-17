@@ -1,5 +1,6 @@
 package camt.cbsd.services;
 
+import camt.cbsd.entity.RegisterEntity;
 import camt.cbsd.entity.Student;
 
 import java.awt.image.BufferedImage;
@@ -17,4 +18,5 @@ public interface StudentService {
     Student getStudentForTransfer(String username);
     Student addStudent(Student student, String imageFileName, BufferedImage image) throws IOException;
     List<Student> queryStudent(String query);
+    Student addStudent(RegisterEntity registerEntity);
 }
